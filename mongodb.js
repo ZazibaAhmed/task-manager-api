@@ -1,10 +1,19 @@
 // CRUD 
 
-const mongodb = require('mongodb');
-const MongoClient = mongodb.MongoClient;
+// const mongodb = require('mongodb');
+// const MongoClient = mongodb.MongoClient;
+// const ObjectId = mongodb.ObjectId;
+
+const { MongoClient, ObjectId } = require('mongodb');
 
 const connectionURL = 'mongodb://127.0.0.1:27017';
 const databaseName = 'task-manager';
+
+// const id = new ObjectId();
+// console.log(id);
+// console.log(id.getTimestamp());
+// console.log(id.id.length);
+// console.log(id.toHexString().length);
 
 MongoClient.connect(connectionURL, {useNewUrlParser: true}, (error, client) => {
     if(error){
@@ -16,8 +25,9 @@ MongoClient.connect(connectionURL, {useNewUrlParser: true}, (error, client) => {
 
     
     // db.collection('users').insertOne({
-    //     name: 'Zaziba',
-    //     age: 26
+    //     _id: id,
+    //     name: 'J',
+    //     age: 29
     // }).then((result) => {
     //     // return resolve(correct);
     //     console.log(result);
@@ -41,21 +51,21 @@ MongoClient.connect(connectionURL, {useNewUrlParser: true}, (error, client) => {
     //     console.log('Unable to connect to databse');
     // })
 
-    db.collection('tasks').insertMany([
-        {
-            description: 'Wash Dishes',
-            completed: false
-        },
-        {
-            description: 'Clean Room',
-            completed: true
-        },
-    ]).then((result) => {
-        // return resolve(correct);
-        console.log(result);
-    }).catch((error) => {
-        console.log('Unable to connect to databse');
-    })
+    // db.collection('tasks').insertMany([
+    //     {
+    //         description: 'Wash Dishes',
+    //         completed: false
+    //     },
+    //     {
+    //         description: 'Clean Room',
+    //         completed: true
+    //     },
+    // ]).then((result) => {
+    //     // return resolve(correct);
+    //     console.log(result);
+    // }).catch((error) => {
+    //     console.log('Unable to connect to databse');
+    // })
 });
 
 

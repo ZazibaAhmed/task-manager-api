@@ -78,22 +78,22 @@ MongoClient.connect(connectionURL, {useNewUrlParser: true}, (error, client) => {
     //     console.log('Unable to connect to databse');
     // })
 
-    db.collection('tasks').findOne({ _id: new ObjectId('6341dd3beef33cc5796447e9'),})
-    .then((result) => {
-        // return resolve(correct);
-        console.log(result);
-    }).catch((error) => {
-        console.log('Unable to connect to databse');
-    })
+    // db.collection('tasks').findOne({ _id: new ObjectId('6341dd3beef33cc5796447e9'),})
+    // .then((result) => {
+    //     // return resolve(correct);
+    //     console.log(result);
+    // }).catch((error) => {
+    //     console.log('Unable to connect to databse');
+    // })
 
-    db.collection('tasks').find({ completed: false,})
-    .toArray()
-    .then((result) => {
-        // return resolve(correct);
-        console.log(result);
-    }).catch((error) => {
-        console.log('Unable to connect to databse');
-    })
+    // db.collection('tasks').find({ completed: false,})
+    // .toArray()
+    // .then((result) => {
+    //     // return resolve(correct);
+    //     console.log(result);
+    // }).catch((error) => {
+    //     console.log('Unable to connect to databse');
+    // })
 
     // db.collection('users').updateOne({
     //     _id: new ObjectId('633f358e7919e85017741532'),
@@ -111,20 +111,36 @@ MongoClient.connect(connectionURL, {useNewUrlParser: true}, (error, client) => {
     //     console.log('Unable to connect to database');
     // })
 
-    db.collection('tasks').updateMany({
-        completed: false,
-    }, {
-        $set: {
-            completed: true,
-        }
-    }).then((result) => {
-        console.log(result);
-    }).catch((error) => {
-        console.log('Unable to connect to database', error);
-    })
+    // db.collection('tasks').updateMany({
+    //     completed: false,
+    // }, {
+    //     $set: {
+    //         completed: true,
+    //     }
+    // }).then((result) => {
+    //     console.log(result);
+    // }).catch((error) => {
+    //     console.log('Unable to connect to database', error);
+    // })
 
     
+    // db.collection('users').deleteMany({
+    //     age: 1
+    // }).then((result) => {
+    //     // return resolve(correct);
+    //     console.log(result);
+    // }).catch((error) => {
+    //     console.log('Unable to connect to database');
+    // })
 
+    db.collection('tasks').deleteOne({
+        description: "clean room"
+    }).then((result) => {
+        // return resolve(correct);
+        console.log(result);
+    }).catch((error) => {
+        console.log(error);
+    })
     
 });
 

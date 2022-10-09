@@ -4,7 +4,7 @@
 // const MongoClient = mongodb.MongoClient;
 // const ObjectId = mongodb.ObjectId;
 
-const { MongoClient, ObjectId } = require('mongodb');
+const { MongoClient, ObjectId, ObjectID } = require('mongodb');
 
 const connectionURL = 'mongodb://127.0.0.1:27017';
 const databaseName = 'task-manager';
@@ -25,26 +25,10 @@ MongoClient.connect(connectionURL, {useNewUrlParser: true}, (error, client) => {
 
     
     // db.collection('users').insertOne({
-    //     _id: id,
+    //     // _id: id,
     //     name: 'J',
     //     age: 29
     // }).then((result) => {
-    //     // return resolve(correct);
-    //     console.log(result);
-    // }).catch((error) => {
-    //     console.log('Unable to connect to databse');
-    // })
-
-    // db.collection('users').insertMany([
-    //     {
-    //         name: 'Abul',
-    //         age: 21
-    //     },
-    //     {
-    //         name: 'Bokrul',
-    //         age: 27
-    //     }
-    // ]).then((result) => {
     //     // return resolve(correct);
     //     console.log(result);
     // }).catch((error) => {
@@ -64,8 +48,53 @@ MongoClient.connect(connectionURL, {useNewUrlParser: true}, (error, client) => {
     //     // return resolve(correct);
     //     console.log(result);
     // }).catch((error) => {
+    //     console.log('Unable to connect to database');
+    // })
+
+    db.collection('users').findOne({
+        name: 'J',
+    }).then((result) => {
+        // return resolve(correct);
+        console.log(result);
+    }).catch((error) => {
+        console.log('Unable to connect to databse');
+    })
+
+    // db.collection('users').find({ name: 'J',})
+    // .toArray()
+    // .then((result) => {
+    //     // return resolve(correct);
+    //     console.log(result);
+    // }).catch((error) => {
     //     console.log('Unable to connect to databse');
     // })
+
+    // db.collection('users').find({ name: 'J',})
+    // .count()
+    // .then((result) => {
+    //     // return resolve(correct);
+    //     console.log(result);
+    // }).catch((error) => {
+    //     console.log('Unable to connect to databse');
+    // })
+
+    db.collection('tasks').findOne({ _id: new ObjectId('6341dd3beef33cc5796447e9'),})
+    .then((result) => {
+        // return resolve(correct);
+        console.log(result);
+    }).catch((error) => {
+        console.log('Unable to connect to databse');
+    })
+
+    db.collection('tasks').find({ completed: false,})
+    .toArray()
+    .then((result) => {
+        // return resolve(correct);
+        console.log(result);
+    }).catch((error) => {
+        console.log('Unable to connect to databse');
+    })
+    
 });
 
 

@@ -21,7 +21,7 @@ MongoClient.connect(connectionURL, {useNewUrlParser: true}, (error, client) => {
     }
 
     console.log('Connected correctly!');
-    const db = client.db(databaseName) // Creats the database and return the database reference
+    const db = client.db(databaseName) // Creates the database and return the database reference
 
     
     // db.collection('users').insertOne({

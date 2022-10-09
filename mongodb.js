@@ -51,14 +51,14 @@ MongoClient.connect(connectionURL, {useNewUrlParser: true}, (error, client) => {
     //     console.log('Unable to connect to database');
     // })
 
-    db.collection('users').findOne({
-        name: 'J',
-    }).then((result) => {
-        // return resolve(correct);
-        console.log(result);
-    }).catch((error) => {
-        console.log('Unable to connect to databse');
-    })
+    // db.collection('users').findOne({
+    //     name: 'J',
+    // }).then((result) => {
+    //     // return resolve(correct);
+    //     console.log(result);
+    // }).catch((error) => {
+    //     console.log('Unable to connect to databse');
+    // })
 
     // db.collection('users').find({ name: 'J',})
     // .toArray()
@@ -94,6 +94,37 @@ MongoClient.connect(connectionURL, {useNewUrlParser: true}, (error, client) => {
     }).catch((error) => {
         console.log('Unable to connect to databse');
     })
+
+    // db.collection('users').updateOne({
+    //     _id: new ObjectId('633f358e7919e85017741532'),
+    // }, {
+    //     // $set: {
+    //     //     name: 'Jay'
+    //     // }
+    //     $inc: {
+    //         age: -1
+    //     }
+    // }).then((result) => {
+    //     // return resolve(correct);
+    //     console.log(result);
+    // }).catch((error) => {
+    //     console.log('Unable to connect to database');
+    // })
+
+    db.collection('tasks').updateMany({
+        completed: false,
+    }, {
+        $set: {
+            completed: true,
+        }
+    }).then((result) => {
+        console.log(result);
+    }).catch((error) => {
+        console.log('Unable to connect to database', error);
+    })
+
+    
+
     
 });
 

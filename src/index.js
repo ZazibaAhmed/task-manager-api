@@ -2,6 +2,7 @@ const express = require('express');
 require('./db/mongoose'); // Simply by calling require we make sure the file runs  and db is connected
 const User = require('./models/user');
 const Task = require('./models/task');
+const { isObjectIdOrHexString } = require('mongoose');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -19,40 +20,65 @@ app.post('/users',(req, res) => {
     });
 })
 
+app.get('/users',(req, res) => {
+
+    User.find({}).then((users)=>{
+        res.send(users);
+    }).catch((error)=>{
+        res.status(500).send(); 
+    });
+})
+
+app.get('/users/:id',(req, res) => {
+
+    const _id = req.params.id;
+    
+    User.findById(_id).then((user) => {
+        if(!user){
+            return res.status(404).send();
+        }
+
+        res.send(user);
+
+    }).catch((error)=>{
+        res.status(500).send(error); 
+    });
+})
+
 app.post('/tasks',(req, res) => {
     console.log(req.body);
     const task = new Task(req.body);
     task.save().then(()=>{
         res.status(201).send(task);
     }).catch((error)=>{
-        res.status(400).send(error); 
+        res.status(500).send(); 
     });
 })
 
+app.get('/tasks',(req, res) => {
 
-// const me = new User({
-//     name: ' Shanata ',
-//     email: 'SHANATA@GMAIL.COM',
-//     password: 'passwor'
-// });
+    Task.find({}).then((tasks) => {
+        res.send(tasks);
+    }).catch((error)=>{
+        res.status(500).send(); 
+    });
+})
 
-// me.save().then(()=>{
-//     // console.log(result);
-//     console.log(me);
-// }).catch((error) => {
-//     console.log('error', error)
-// })
+app.get('/tasks/:id',(req, res) => {
 
-// const task = new Task({
-//     description : "Polish room",
-// });
+    const _id = req.params.id;
+    
+    Task.findById(_id).then((task) => {
+        if(!task){
+            return res.status(404).send();
+        }
 
-// task.save().then((result)=>{
-//     console.log(result);
-//     console.log(task);
-// }).catch((error) => {
-//     console.log('error')
-// })
+        res.send(task);
+
+    }).catch((error)=>{
+        res.status(500).send(); 
+    });
+})
 
 app.listen(port, () => {
     console.log('Server up on port '+ port);

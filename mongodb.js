@@ -133,14 +133,14 @@ MongoClient.connect(connectionURL, {useNewUrlParser: true}, (error, client) => {
     //     console.log('Unable to connect to database');
     // })
 
-    db.collection('tasks').deleteOne({
-        description: "clean room"
-    }).then((result) => {
-        // return resolve(correct);
-        console.log(result);
-    }).catch((error) => {
-        console.log(error);
-    })
+    // db.collection('tasks').deleteOne({
+    //     description: "clean room"
+    // }).then((result) => {
+    //     // return resolve(correct);
+    //     console.log(result);
+    // }).catch((error) => {
+    //     console.log(error);
+    // })
     
 });
 

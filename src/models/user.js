@@ -60,6 +60,16 @@ userSchema.methods.generateAuthToken = async function() { // Need to use 'this' 
     return token;
 }
 
+userSchema.methods.getPublicProfile = async function() { 
+    const user = this;
+    const userObject = user.Object();
+    
+    delete userObject.password;
+    delete userObject.tokens;
+    
+    return userObject
+}
+
 // Available on the model
 userSchema.statics.findByCredentials = async (email, password) => {
     const user = await User.findOne({email});

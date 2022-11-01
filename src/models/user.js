@@ -56,7 +56,7 @@ userSchema.methods.generateAuthToken = async function() { // Need to use 'this' 
 
     user.tokens = user.tokens.concat({ token });
     await user.save();
-    
+
     return token;
 }
 
@@ -78,7 +78,7 @@ userSchema.statics.findByCredentials = async (email, password) => {
 }
 
 // Hash the plaintext password before saving
-userSchema.pre('save', async function(next){
+userSchema.pre('save', async function(next){ // pre is a mongoose middleware
     const user = this;
 
     if(user.isModified('password')){

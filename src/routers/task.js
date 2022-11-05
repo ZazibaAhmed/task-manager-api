@@ -20,13 +20,21 @@ router.post('/tasks', auth, async (req, res) => {
 })
 
 // GET /tasks?completed=true
-// GET /tasks?limit=10&skip=10
+// GET /tasks?limit=10&skip=0
+// GET /tasks?sortBy=createdAt_desc
+// asc is 1, desc is -1
 router.get('/tasks', auth, async (req, res) => {
 
     const match = {}
+    const sort = {}
 
     if(req.query.completed){
         match.completed = req.query.completed === 'true' // true is a string, so we convert to boolean
+    }
+
+    if(req.query.sortBy){
+        const parts = req.query.sortBy.split('_');
+        sort[parts[0]] = parts[1] === 'desc' ? -1 : 1;
     }
 
     try {
@@ -38,7 +46,8 @@ router.get('/tasks', auth, async (req, res) => {
             match,
             options: {
                 limit: parseInt(req.query.limit), // if limit's not provided it will be ignored by mongoose
-                skip: parseInt(req.query.skip)
+                skip: parseInt(req.query.skip),
+                sort
             }
         });
         res.send(req.user.tasks);

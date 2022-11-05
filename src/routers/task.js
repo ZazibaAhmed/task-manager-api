@@ -20,12 +20,13 @@ router.post('/tasks', auth, async (req, res) => {
 })
 
 // GET /tasks?completed=true
+// GET /tasks?limit=10&skip=10
 router.get('/tasks', auth, async (req, res) => {
 
     const match = {}
 
     if(req.query.completed){
-        match.completed = req.query.completed === 'true'
+        match.completed = req.query.completed === 'true' // true is a string, so we convert to boolean
     }
 
     try {
@@ -34,7 +35,11 @@ router.get('/tasks', auth, async (req, res) => {
         // OR
         await req.user.populate({
             path: 'tasks',
-            match
+            match,
+            options: {
+                limit: parseInt(req.query.limit), // if limit's not provided it will be ignored by mongoose
+                skip: parseInt(req.query.skip)
+            }
         });
         res.send(req.user.tasks);
     } catch (error) {

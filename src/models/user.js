@@ -60,13 +60,13 @@ userSchema.methods.generateAuthToken = async function() { // Need to use 'this' 
     return token;
 }
 
-userSchema.methods.getPublicProfile = async function() { 
+userSchema.methods.toJSON = function() { 
     const user = this;
-    const userObject = user.Object();
-    
+    const userObject = user.toObject();
+
     delete userObject.password;
     delete userObject.tokens;
-    
+
     return userObject
 }
 

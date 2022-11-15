@@ -1,5 +1,5 @@
 const express = require('express');
-require('./db/mongoose'); // Simply by calling require we make sure the file runs  and db is connected
+require('./db/mongoose'); // Simply by calling require we make sure the file runs and db is connected
 const userRouter = require('./routers/user');
 const taskRouter = require('./routers/task');
 

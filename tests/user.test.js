@@ -22,10 +22,10 @@ beforeEach(async () => {
 
 test('Should signup a new user', async () => {
     const response =  await request(app).post('/users').send({
-        name: "Andrew",
-        email: 'andrew@example.com',
-        password: '1234567'
-    }).expect(201)
+                        name: "Andrew",
+                        email: 'andrew@example.com',
+                        password: '1234567'
+                    }).expect(201)
 
     // Assert that the database was changed correctly
     const user = await User.findById(response.body.user._id);
@@ -97,3 +97,44 @@ test('Should not delete account for unauthenticated user', async () => {
     .send()
     .expect(401)                
 }) 
+
+test('Should upload avatar', async () => {
+    await request(app)
+        .post('/users/me/avatar')
+        .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
+        .attach('avatar', 'tests/fixtures/profile-pic.jpg')
+        .expect(200)  
+        
+    // Since sharp module modifies th eimage. we willl check
+    const user = await User.findById(userOneId);
+    expect(user.avatar).toEqual(expect.any(Buffer)); // check all the properties // checks if what we're looking at is of that type
+
+}) 
+
+test('Should update valid user fields', async () => {
+    await request(app)
+    .patch('/users/me')
+    .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
+    .send({ 
+        name : "EditedMike" 
+    })
+    .expect(200)       
+                    
+    // Assertions that the data has been changed
+    const user = await User.findById(userOneId);
+    expect(user.name).toEqual("EditedMike");
+}) 
+
+test('Should not update invalid user fields', async () => {
+    await request(app)
+    .patch('/users/me')
+    .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
+    .send({ 
+        location : "testLocation" 
+    })
+    .expect(400)       
+}) 
+
+
+
+

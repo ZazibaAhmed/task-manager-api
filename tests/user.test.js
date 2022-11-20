@@ -29,6 +29,24 @@ test('Should signup a new user', async () => {
                    
 })
 
+test('Should not signup user with invalid name/email/password', async () => {
+    await request(app).post('/users').send({
+        name: 1234, // Invalid name
+        email: 'andrew@example', 
+        password: '123456'
+    }).expect(400)
+    await request(app).post('/users').send({
+        name: "Andrew",
+        email: 'andrew@example.com',
+        password: '123456' // Invalid password
+    }).expect(400)
+    await request(app).post('/users').send({
+        name: "Andrew",
+        email: 'andrew@example', // Invalid email
+        password: '123456'
+    }).expect(400)       
+})
+
 test('Should login an existing user', async () => {
     const response = await request(app).post('/users/login').send({
         email: userOne.email,
@@ -110,6 +128,15 @@ test('Should update valid user fields', async () => {
     expect(user.name).toEqual("EditedMike");
 }) 
 
+test('Should not update user if unauthenticated', async () => {
+    await request(app)
+    .patch('/users/me')
+    .send({ 
+        name : "EditedMike" 
+    })
+    .expect(401)       
+}) 
+
 test('Should not update invalid user fields', async () => {
     await request(app)
     .patch('/users/me')
@@ -119,6 +146,32 @@ test('Should not update invalid user fields', async () => {
     })
     .expect(400)       
 }) 
+
+test('Should not update user with invalid name/email/password', async () => {
+    await request(app)
+    .patch('/users/me')
+    .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
+    .send({
+        name: '', // Invalid name
+    })
+    .expect(400)
+    await request(app)
+    .patch('/users/me')
+    .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
+    .send({
+        password: '123456' // Invalid password
+    })
+    .expect(400)
+    await request(app)
+    .patch('/users/me')
+    .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
+    .send({
+        email: 'andrew@example', // Invalid email
+    })
+    .expect(400)      
+})
+
+
 
 
 

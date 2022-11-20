@@ -6,11 +6,14 @@ const { userOneId, userOne, setupDatabase } = require('./fixtures/db');
 beforeEach(setupDatabase);
 
 test('Should signup a new user', async () => {
-    const response =  await request(app).post('/users').send({
-                        name: "Andrew",
-                        email: 'andrew@example.com',
-                        password: '1234567'
-                    }).expect(201)
+    const response =  await request(app)
+        .post('/users')
+        .send({
+            name: "Andrew",
+            email: 'andrew@example.com',
+            password: '1234567'
+        })
+        .expect(201)
 
     // Assert that the database was changed correctly
     const user = await User.findById(response.body.user._id);
@@ -170,9 +173,6 @@ test('Should not update user with invalid name/email/password', async () => {
     })
     .expect(400)      
 })
-
-
-
 
 
 

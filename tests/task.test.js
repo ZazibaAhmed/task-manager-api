@@ -1,7 +1,7 @@
 const request = require('supertest');
 const app = require('../src/app'); 
 const Task = require('../src/models/task'); 
-const { userOne, userTwo,taskOne, taskTwo, taskThree, setupDatabase } = require('./fixtures/db');
+const { userOneId, userOne, userTwo, taskOne, taskTwo, taskThree, setupDatabase } = require('./fixtures/db');
 
 beforeEach(setupDatabase);
 
@@ -91,6 +91,45 @@ test('Should fetch only incomplete tasks', async () => {
     .expect(200);   
     
     expect(response.body.length).toEqual(1);  
+})
+
+// Should sort tasks by description/completed/createdAt/updatedAt
+test('Should sort tasks by description/completed/createdAt/updatedAt', async () => {
+    let response =  await request(app)
+    .get(`/tasks?sortBy=createdAt_desc`)
+    .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
+    .send()
+    .expect(200); 
+    
+    expect(response.body[0].description).toBe(taskTwo.description);
+
+    response =  await request(app)
+    .get(`/tasks?sortBy=description_desc`)
+    .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
+    .send()
+    .expect(200); 
+
+    expect(response.body[0].description).toBe(taskTwo.description);
+
+    
+})
+
+test('Should fetch page of tasks', async () => {
+    let response =  await request(app)
+    .get(`/tasks?limit=1&skip=0`) // 1st page of 1 item
+    .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
+    .send()
+    .expect(200);   
+    
+    expect(response.body.length).toEqual(1);
+    
+    response =  await request(app)
+    .get(`/tasks?limit=2&skip=2`) // second page of 2 items
+    .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
+    .send()
+    .expect(200);   
+    
+    expect(response.body.length).toEqual(0);
 })
 
 test('Should delete users tasks', async () => {
